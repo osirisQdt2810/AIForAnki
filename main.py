@@ -10,10 +10,10 @@ class AIForAnki(object):
 class AFAServer(AIForAnki):
     def _run_app_main(self):
         import uvicorn
-        from app import settings
+        from src.app import settings
         
         uvicorn.run(
-            "app.runner:main_app",
+            "src.app.runner:main_app",
             host=settings.SERVER_HOST,
             port=settings.SERVER_PORT,
             workers=settings.WORKERS,

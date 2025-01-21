@@ -6,7 +6,6 @@ T = TypeVar("T")
 
 class ResponseMessage(BaseModel):
     code: Optional[int] = None
-    http_code: Optional[int] = None
     msg: Optional[str] = None
     
     def message(self, code: int, msg: str):
@@ -32,7 +31,7 @@ class ResponseData(ResponseMessage, Generic[T]):
         return self
     
     def success_message(self, data: T):
-        super().success_message()(self)
+        super().success_message()
         self.data = data
         return self
     

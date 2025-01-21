@@ -1,15 +1,15 @@
-from app.application import get_main_application
+from src.app.application import get_main_application
 
 from fastapi import Request
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 
-templates = Jinja2Templates(directory="app/template")
+templates = Jinja2Templates(directory="src/app/template")
 
-app_main = get_main_application()
-app_main.mount("/storage", StaticFiles(directory="storage"), name="storage")
+main_app = get_main_application()
+# main_app.mount("/storage", StaticFiles(directory="storage"), name="storage")
 
-@app_main.get("/")
+@main_app.get("/")
 def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 

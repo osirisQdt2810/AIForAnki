@@ -5,9 +5,9 @@ from fastapi.responses import JSONResponse
 
 from starlette.status import HTTP_422_UNPROCESSABLE_ENTITY
 
-from app.exceptions.exception import ChatbotException
-from app.logging.logger import logger
-from app.models.model_http_response import ResponseMessage
+from src.app.exceptions.exception import ChatbotException
+from src.app.logging.logger import logger
+from src.app.models.model_http_response import ResponseMessage
 
 class ValidationExceptionHandler:
     async def __call__(self, request: Request, exception: RequestValidationError):

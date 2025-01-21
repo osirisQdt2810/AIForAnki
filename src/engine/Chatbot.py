@@ -23,7 +23,7 @@ class Assistant(object):
         pass
     
     @abstractmethod
-    def describe_image(self, image: Image.Image) -> List[str]:
+    def describe_image(self, image: Image.Image) -> str:
         pass
 
     @abstractmethod
@@ -61,7 +61,7 @@ class AnkiAssistant(Assistant):
             self.VL_FIXED_RESIZED_HEIGHT = 320
             self.vl_max_new_tokens = max_new_token_vl
             self.vl_model_device = torch.device(f"{self.vl_model_device_id}" if torch.cuda.is_available() is not None else "cpu")
-            self.vl_model_name = "Qwen/Qwen2-VL-2B-Instruct"
+            self.vl_model_name = "Qwen/Qwen2-VL-7B-Instruct"
             self.vl_model = Qwen2VLForConditionalGeneration.from_pretrained(
                 pretrained_model_name_or_path=self.vl_model_name, 
                 torch_dtype="auto", 
@@ -105,9 +105,9 @@ class AnkiAssistant(Assistant):
             return response
         else:
             print(f"[WARN] ChatModel haven't initialized yet.")
-            return None
+            return ""
 
-    def describe_image(self, image: Image.Image) -> List[str]:
+    def describe_image(self, image: Image.Image) -> str:
         return self.analyse_images_with_prompt([image], "Describe this image.")
     
     def analyse_images_with_prompt(self, images: List[Image.Image], prompt: str) -> str:
@@ -156,7 +156,7 @@ class AnkiAssistant(Assistant):
             return output_text
         else:
             print(f"[WARN] VisionLanguageModel haven't initialized yet.")
-            return None
+            return ""
     
     def describe_video(self, video: str, **kwargs) -> str:
         if hasattr(self, "vl_model"):

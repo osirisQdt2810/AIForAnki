@@ -2,20 +2,18 @@ from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 
-from contextlib import asynccontextmanager
-
-from app import settings
-
-@asynccontextmanager
-async def lifespan(main_app: FastAPI):
-    # await init()
-    # await start()
-    # yield
-    # await stop()
-    pass
-
+from src.app import settings
+from src.app.api import router
+from src.app.context import AppLifecycle
+from src.app.exceptions.exception import ChatbotException
+from src.app.exceptions.exception_handlers import ChatbotExceptionHandler, ValidationExceptionHandler
+        
 def get_main_application() -> FastAPI:
     # setup main application
+    async def lifespan(app: FastAPI):
+        async with AppLifecycle(app):
+            yield
+            
     main_app = FastAPI(
         title=settings.PROJECT_NAME,
         docs_url="/docs",
@@ -42,11 +40,11 @@ def get_main_application() -> FastAPI:
         )
         
     # setup exceptions
-    main_app.add_exception_handler(RequestValidationError, ValidationExceptionHandler)
-    main_app.add_exception_handler(LogicError, LogicExceptionHandler)
+    main_app.add_exception_handler(RequestValidationError, ValidationExceptionHandler())
+    main_app.add_exception_handler(ChatbotException, ChatbotExceptionHandler())
     
     # setup router
-    main_app.include_router(api_router, prefix=settings.API_PREFIX)
+    main_app.include_router(router, prefix=settings.API_PREFIX)
     
     return main_app
             
