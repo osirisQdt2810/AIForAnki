@@ -1,4 +1,4 @@
-from src.app.settings import settings
+from src.settings import settings
 
 __all__ = [
     "settings"

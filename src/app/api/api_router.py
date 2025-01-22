@@ -3,7 +3,7 @@ import time
 from fastapi import Request, Response
 from fastapi.routing import APIRoute
 
-from src.app.logging.logger import logger
+from src.helpers.logging.logger import logger
 
 class TimerRoute(APIRoute):
     def get_route_handler(self):

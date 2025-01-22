@@ -5,7 +5,7 @@ from functools import wraps
 from fastapi import Request, Depends
 
 from src.engine.Chatbot import AnkiAssistant
-from src.app import settings
+from src.settings import settings
 
 Error_t = Optional[str]
 

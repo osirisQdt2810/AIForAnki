@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.app import settings
+from src.settings import settings
 from src.app.api import router
 from src.app.context import AppLifecycle
 from src.app.exceptions.exception import ChatbotException

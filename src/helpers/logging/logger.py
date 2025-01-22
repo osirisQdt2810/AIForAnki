@@ -1,7 +1,7 @@
 import logging
 import logging.config
 
-from src.app import settings
+from src.settings import settings
 
 __all__ = ["logger"]
 

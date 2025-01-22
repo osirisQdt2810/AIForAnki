@@ -10,8 +10,8 @@ from src.app.models.model_chatbot import ChatResponse
 from src.app.models.model_http_response import ResponseData
 from src.app.core.assistant import DepsAnkiAssistant
 from src.app.exceptions.exception import ChatbotException
-from src.app.logging.logger import logger
-from src.app import settings
+from src.helpers.logging.logger import logger
+from src.settings import settings
 
 router = APIRouter(route_class=TimerRoute)
 

@@ -12,7 +12,6 @@ from transformers.models.qwen2.modeling_qwen2 import Qwen2ForCausalLM
 from transformers.models.qwen2.tokenization_qwen2_fast import Qwen2TokenizerFast
 from transformers.models.qwen2_vl.processing_qwen2_vl import Qwen2VLProcessor
 
-
 class Assistant(object):
     @abstractmethod
     def answer(self, prompt: str) -> str:

@@ -10,7 +10,7 @@ class AIForAnki(object):
 class AFAServer(AIForAnki):
     def _run_app_main(self):
         import uvicorn
-        from src.app import settings
+        from src.settings import settings
         
         uvicorn.run(
             "src.app.runner:main_app",
@@ -28,8 +28,15 @@ class AFAServer(AIForAnki):
         main_process.join()
         
 class AFAAnki(AIForAnki):
-    def run(self):
+    def _test_anki_enumeration_tool(self):
+        from tests.kt.test_anki_enumeration_tool import osce_dialog
+        osce_dialog.run_anki_enumeration_tool(self)
+    
+    def _run_anki_assistant_tool(self):
         pass
+    
+    def run(self):
+        self._run_anki_assistant_tool()
     
 def parse_args():
     parser = argparse.ArgumentParser("AI For Anki")

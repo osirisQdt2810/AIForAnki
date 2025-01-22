@@ -1,10 +1,10 @@
 [default]
-#project config
+# project config
 PROJECT_NAME = "AI For Anki"
 API_PREFIX = "/api/v1"
 LOGGING_CONFIG_FILE = "config/logging.ini"
 
-#host config
+# host config
 BACKEND_CORS_ORIGINS = "http://localhost:8508, http://localhost:3000"
 SERVER_NAME = ""
 SERVER_HOST = "0.0.0.0"
@@ -12,6 +12,9 @@ SERVER_STATIC_HOST = "127.0.0.1"
 SERVER_PORT = 8505
 SENTRY_DNS = ""
 WORKERS = 1
+
+# anki
+API_DOMAIN = "0.0.0.0:8505"
 
 [production]
 DEBUG = false

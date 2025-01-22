@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 
+from src.settings import settings
 from src.app.core.assistant import Engine
 
 class AppLifecycle:
@@ -8,7 +9,7 @@ class AppLifecycle:
             
     async def init(self):
         """Initialize resources for the application."""
-        self.app.anki_assistant = Engine(lazy_loading=False)
+        self.app.anki_assistant = Engine(lazy_loading=settings.LAZY_LOADING)
 
     async def start(self):
         """Start the application lifecycle."""

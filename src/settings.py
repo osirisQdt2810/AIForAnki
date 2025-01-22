@@ -25,13 +25,17 @@ class ServerSettings(BaseSettings):
     DEBUG: Optional[bool] = Field(default=True)
 
 class ChatbotSettings(BaseSettings):
+    LAZY_LOADING: Optional[bool] = Field()
     GPU_DEVICES_ID: Optional[List[int]] = Field()
     MAX_NEW_TOKEN_CHAT_MODEL: Optional[int] = Field()
     MAX_NEW_TOKEN_VISION_MODEL: Optional[int] = Field()
     ENABLE_VISION_MODEL: Optional[bool] = Field()
     CACHE_DIR: Optional[str] = Field()
-    
-class AppSettings(CommonSettings, ServerSettings, ChatbotSettings):
+
+class AnkiSettings(BaseSettings):
+    API_DOMAIN: Optional[str] = Field()
+
+class AppSettings(CommonSettings, ServerSettings, ChatbotSettings, AnkiSettings):
     config: ClassVar[SettingsConfigDict] = SettingsConfigDict(extra="ignore")
     
 settings = AppSettings.model_validate(dyna_settings.as_dict())
