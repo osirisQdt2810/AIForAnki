@@ -6,7 +6,7 @@ from fastapi import APIRouter, Body, UploadFile, File
 from PIL import Image
 
 from src.app.api.api_router import TimerRoute
-from src.app.models.model_chatbot import ChatResponse
+from src.app.models.model_chatbot import ChatResponse, ChatRequest
 from src.app.models.model_http_response import ResponseData
 from src.app.core.assistant import DepsAnkiAssistant
 from src.app.exceptions.exception import ChatbotException
@@ -18,10 +18,10 @@ router = APIRouter(route_class=TimerRoute)
 @router.post("/answer", response_model=ResponseData)
 async def answer(
     anki_assistant: DepsAnkiAssistant,
-    prompt: str = Body(...)
+    chat_request: ChatRequest = Body(...)
 ) -> ResponseData:
     # run assistant
-    answer, error = await anki_assistant.answer(prompt)
+    answer, error = await anki_assistant.answer(chat_request.prompt)
     
     if error:
         raise ChatbotException.unprocessable_exception(message=str(error))
@@ -51,7 +51,7 @@ async def answer(
 @router.post("/analyse-images", response_model=ResponseData)
 async def answer(
     anki_assistant: DepsAnkiAssistant,
-    prompt: str = Body(...),
+    chat_request: ChatRequest = Body(...),
     files: List[UploadFile] = File(...)
 ) -> ResponseData:    
     # read and convert all files into PIL Images
@@ -62,7 +62,7 @@ async def answer(
         images.append(image)
 
     # analyse images using the assistant
-    anal, error = await anki_assistant.analyse_images_with_prompt(images, prompt)
+    anal, error = await anki_assistant.analyse_images_with_prompt(images, chat_request.prompt)
     if error:
         raise ChatbotException.unprocessable_exception(message=str(error))
     

@@ -33,7 +33,8 @@ class AFAAnki(AIForAnki):
         osce_dialog.run_anki_enumeration_tool(self)
     
     def _run_anki_assistant_tool(self):
-        pass
+        from tests.kt.test_anki_assistant_tool import dialog
+        dialog.run_anki_assistant_tool(self)
     
     def run(self):
         self._run_anki_assistant_tool()

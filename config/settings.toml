@@ -14,7 +14,7 @@ SENTRY_DNS = ""
 WORKERS = 1
 
 # anki
-API_DOMAIN = "0.0.0.0:8505"
+API_DOMAIN = "http://localhost:48505/api/v1/llm"
 
 [production]
 DEBUG = false

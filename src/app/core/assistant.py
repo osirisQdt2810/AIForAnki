@@ -4,7 +4,7 @@ from functools import wraps
 
 from fastapi import Request, Depends
 
-from src.engine.Chatbot import AnkiAssistant
+from src.engine.chatbot import AnkiAssistant
 from src.settings import settings
 
 Error_t = Optional[str]
@@ -35,11 +35,14 @@ class Engine(object):
 
     def _build_assistant(self) -> AnkiAssistant:
         return AnkiAssistant(
-            device_ids=settings.GPU_DEVICES_ID,
             cache_dir=settings.CACHE_DIR,
-            max_new_token_chat=settings.MAX_NEW_TOKEN_CHAT_MODEL,
-            max_new_token_vl=settings.MAX_NEW_TOKEN_VISION_MODEL,
-            enable_vision_model=settings.ENABLE_VISION_MODEL
+            device_ids=[str(did) for did in settings.GPU_DEVICES_ID],
+            chat_model_name=settings.CHAT_MODEL_NAME,
+            chat_max_token=settings.MAX_NEW_TOKEN_CHAT_MODEL,
+            vision_model_name=settings.VISION_MODEL_NAME,
+            vision_max_token=settings.MAX_NEW_TOKEN_VISION_MODEL,
+            enable_vision_model=settings.ENABLE_VISION_MODEL,
+            distributed=settings.DISTRIBUTED
         )
     
     @lazy_load_assistant

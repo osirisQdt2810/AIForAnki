@@ -1,11 +1,17 @@
+import os
+
 from typing import Optional, List, ClassVar
 
 from dynaconf import Dynaconf
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+PROJECT_SOURCE_DIR = os.path.dirname(os.path.dirname(__file__))
 dyna_settings = Dynaconf(
-    settings_file=["config/settings.toml", "config/.secret.toml"],
+    settings_file=[
+        f"{PROJECT_SOURCE_DIR}/config/settings.toml", 
+        f"{PROJECT_SOURCE_DIR}/config/.secret.toml"
+    ],
     environments=True
 )
 
@@ -31,6 +37,9 @@ class ChatbotSettings(BaseSettings):
     MAX_NEW_TOKEN_VISION_MODEL: Optional[int] = Field()
     ENABLE_VISION_MODEL: Optional[bool] = Field()
     CACHE_DIR: Optional[str] = Field()
+    CHAT_MODEL_NAME: Optional[str] = Field()
+    VISION_MODEL_NAME: Optional[str] = Field()
+    DISTRIBUTED: Optional[bool] = Field()
 
 class AnkiSettings(BaseSettings):
     API_DOMAIN: Optional[str] = Field()

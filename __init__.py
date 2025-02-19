@@ -4,5 +4,5 @@ sys.path.append(os.path.dirname(__file__))
 
 from aifa import AFAAnki, AFAServer
 
-anki = AFAServer()
+anki = AFAAnki()
 anki.run()

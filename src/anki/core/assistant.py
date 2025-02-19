@@ -4,7 +4,7 @@ from functools import wraps
 import httpx
 import io
 
-from src.engine.Chatbot import AnkiAssistant
+from src.engine.chatbot import AnkiAssistant
 from src.settings import settings
 
 Error_t = Optional[str]
@@ -69,21 +69,17 @@ class AsyncAPIEngine(object):
         self.ENDPOINT_ANALYSE_IMAGES = f"{settings.API_DOMAIN}/analyse-images"
         self.ENDPOINT_DESCRIBE_VIDEO = f"{settings.API_DOMAIN}/describe-video"
         
-    @lazy_load_assistant
-    @handle_exception
-    async def answer(self, prompt: str) -> str:
+    def answer(self, prompt: str) -> str:
         payload = {
             "prompt": prompt
         }
 
-        async with httpx.AsyncClient() as client:
-            response = await client.post(self.ENDPOINT_ANSWER, json=payload)
-            response.raise_for_status()
-            print(response.json())
-            return response.text
+        # async with httpx.AsyncClient() as client:
+        response = httpx.post(self.ENDPOINT_ANSWER, json=payload, timeout=None)
+        response.raise_for_status()
+        response.raise_for_status()
+        return response.json()["data"]["answer"]
         
-    @lazy_load_assistant
-    @handle_exception
     async def describe_image(self, image: Image.Image) -> str:
         image_bytes = io.BytesIO()
         image.save(image_bytes, format="JPEG")
@@ -93,11 +89,8 @@ class AsyncAPIEngine(object):
             files = {"file": ("image.jpg", image_bytes, "image/jpeg")}
             response = await client.post(self.ENDPOINT_DESCRIBE_IMAGE, files=files)
             response.raise_for_status()
-            print(response.json())
-            return response.text
+            return response.json()["data"]["answer"]
 
-    @lazy_load_assistant
-    @handle_exception
     async def analyse_images_with_prompt(self, images: List[Image.Image], prompt: str) -> str:
         files = []
         for idx, image in enumerate(images):
@@ -113,8 +106,6 @@ class AsyncAPIEngine(object):
             response.raise_for_status()
             return response.text
 
-    @lazy_load_assistant
-    @handle_exception
     async def describe_video(self, video: str, **kwargs) -> str:
         async with httpx.AsyncClient() as client:
             with open(video, "rb") as file:
